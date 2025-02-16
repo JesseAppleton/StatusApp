@@ -12,3 +12,14 @@ export async function getPlayerSummary() {
         throw error;
     }
 }
+
+// TODO: Game summary
+// export async function getGameSummary() {
+//     try {
+//         const response = await axios.get(API_PROXY_URL);
+//         return response.data.response.players[0];
+//     } catch (error) {
+//         console.error("Error fetching player summary:", error);
+//         throw error;
+//     }
+// }
