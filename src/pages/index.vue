@@ -10,10 +10,6 @@
         <v-btn icon @click="toggleDarkMode">
           <v-icon>{{ isDark ? 'mdi-weather-night' : 'mdi-weather-sunny' }}</v-icon>
         </v-btn>
-        <!-- <v-avatar
-          icon="$Bear"
-          inage="@/assets/Bear.png"
-        /> -->
       </v-container>
     </v-main>
   </v-app>
@@ -21,10 +17,9 @@
 
 <script lang="ts" setup>
 import SteamProfile from "@/components/SteamProfile.vue";
-import { ref, computed } from "vue";
+import { computed } from "vue";
 import { useTheme } from "vuetify";
 
-// const drawer = ref(false);
 const theme = useTheme();
 
 const isDark = computed(() => theme.global.current.value.dark);

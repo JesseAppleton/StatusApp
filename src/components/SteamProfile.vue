@@ -1,61 +1,41 @@
 <template>
-  <v-container style="padding: 10px;" class="d-flex">
+  <v-container>
     <v-skeleton-loader
       v-if="!player"
       :elevation="2" 
       type="card-avatar"
+      width="700"
     />
     <v-card 
       v-if="player"
       :elevation="2"
       variant="tonal"
+      width="700"
     >
       <!-- Top image -->
-      <v-row>
-        <v-img
-          class="mx-auto"
-          height="200"
-          width="500"
-          src="https://bad.src/not/valid"
-        />
-      </v-row>
+      <v-img
+        id="banner-image"
+        class="mx-auto"
+        cover
+        src=""
+        position="center"
+        background-color="info"
+      />
+      <v-card-text class="d-flex" style="height: 100px;">
+        <v-avatar :image="avatarFull" size="x-large" />
+        
+        <p> 
+          <span class="bold">{{ player.personaname }}</span>
+          <span v-if="statusText == 'Online' && !playerState" class="online"> - {{ statusText }}</span>
+          <span v-if="statusText == 'Offline'" class="offline"> - {{ statusText }}</span>
+        </p>
+        <p v-if="playerState" :text="playerState" class="focused"> - {{ playerState }}</p>
+        <LastHour />
+      </v-card-text>
+      <v-card-text height="50">
+        <LastHour />
+      </v-card-text>
       <!-- Start content -->
-      <v-row>
-        <v-col>
-          <v-avatar size="50">
-            <v-img :src="avatarFull" />
-          </v-avatar>
-        </v-col>
-        <v-col>
-          <v-row>
-            <p> 
-              <span class="bold">{{ player.personaname }}</span>
-              <span v-if="statusText == 'Online' && !playerState" class="online"> - {{ statusText }}</span>
-              <span v-if="statusText == 'Offline'" class="offline"> - {{ statusText }}</span>
-              <span v-else-if="playerState" class="focused"> - {{ playerState }}</span>
-            </p>
-          </v-row>
-          <v-row>
-            <p class="bold">
-              Last Hour
-            </p>
-
-            <!-- <v-sparkline
-              :auto-line-width="autoLineWidth"
-              :fill="fill"
-              :gradient="gradient"
-              :gradient-direction="gradientDirection"
-              :line-width="width"
-              :model-value="value"
-              :padding="padding"
-              :smooth="radius || false"
-              :stroke-linecap="lineCap"
-              :type="type"
-              auto-draw
-            /> -->
-          </v-row>
-        </v-col>
-      </v-row>
     </v-card>
   </v-container>
   <div>
@@ -130,7 +110,12 @@
   .online {
     color: white;
   }
-  .bold{
+  .bold {
     font-weight: bolder;
+  }
+  #banner-image {
+    height: 200px;
+    background: linear-gradient(0.25turn, #1bcb08, #25d81f00), linear-gradient(gradient-direction), url(@/assets/pexels-thatguycraig000-1563356.jpg);
+    width: 100%
   }
 </style>
