@@ -38,12 +38,12 @@
       <!-- Start content -->
     </v-card>
   </v-container>
-  <div>
+  <!-- <div>
     <p>
       All Data: 
       {{ player }}
     </p>
-  </div>
+  </div> -->
 </template>
   
 <script lang="ts">
