@@ -17,7 +17,7 @@
         id="banner-image"
         class="mx-auto"
         cover
-        src=""
+        src="@/assets/pexels-thatguycraig000-1563356.jpg"
         position="center"
         background-color="info"
       />
@@ -30,7 +30,7 @@
           <span v-if="statusText == 'Offline'" class="offline"> - {{ statusText }}</span>
         </p>
         <p v-if="playerState" :text="playerState" class="focused"> - {{ playerState }}</p>
-        <LastHour />
+        <!-- <LastHour /> -->
       </v-card-text>
       <v-card-text height="50">
         <LastHour />

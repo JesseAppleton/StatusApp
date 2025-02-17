@@ -5,13 +5,11 @@
       :auto-line-width="autoLineWidth"
       :fill="fill"
       :gradient="gradient"
-      :gradient-direction="gradientDirection"
       :line-width="width"
       :model-value="value"
       :padding="padding"
       :smooth="radius || false"
       :stroke-linecap="lineCap"
-      :type="type"
       auto-draw
     />
   </p>
@@ -28,10 +26,10 @@
         lineCap: 'round',
         gradient: gradients,
         value: [0, 2, 5, 9, 5, 10, 3, 5, 0, 0, 1, 8, 2, 9, 0],
-        gradientDirection: 'top',
+        // gradientDirection: 'top',
         gradients,
         fill: false,
-        type: 'trend',
+        // type: 'trend',
         autoLineWidth: false,
       }),
     }
