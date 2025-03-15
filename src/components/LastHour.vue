@@ -26,10 +26,8 @@
         lineCap: 'round',
         gradient: gradients,
         value: [0, 2, 5, 9, 5, 10, 3, 5, 0, 0, 1, 8, 2, 9, 0],
-        // gradientDirection: 'top',
         gradients,
         fill: false,
-        // type: 'trend',
         autoLineWidth: false,
       }),
     }
