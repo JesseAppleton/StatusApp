@@ -5,12 +5,11 @@
       <v-container>
         <SteamProfile />
       </v-container>
-      <v-container>
-        <!-- Dark Mode Toggle -->
+      <!-- <v-container>
         <v-btn icon @click="toggleDarkMode">
           <v-icon>{{ isDark ? 'mdi-weather-night' : 'mdi-weather-sunny' }}</v-icon>
         </v-btn>
-      </v-container>
+      </v-container> -->
     </v-main>
   </v-app>
 </template>

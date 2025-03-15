@@ -1,121 +1,131 @@
 <template>
-  <v-container>
-    <v-skeleton-loader
-      v-if="!player"
-      :elevation="2" 
-      type="card-avatar"
-      width="700"
-    />
-    <v-card 
-      v-if="player"
-      :elevation="2"
-      variant="tonal"
-      width="700"
+  <v-container class="status-container">
+    <!-- Game Logo Row (Background matches status) -->
+    <v-row
+      :style="{ backgroundColor: statusColor }"
+      class="game-row"
     >
-      <!-- Top image -->
-      <v-img
-        id="banner-image"
-        class="mx-auto"
-        cover
-        src="@/assets/pexels-thatguycraig000-1563356.jpg"
-        position="center"
-        background-color="info"
-      />
-      <v-card-text class="d-flex" style="height: 100px;">
-        <v-avatar :image="avatarFull" size="x-large" />
-        
-        <p> 
-          <span class="bold">{{ player.personaname }}</span>
-          <span v-if="statusText == 'Online' && !playerState" class="online"> - {{ statusText }}</span>
-          <span v-if="statusText == 'Offline'" class="offline"> - {{ statusText }}</span>
-        </p>
-        <p v-if="playerState" :text="playerState" class="focused"> - {{ playerState }}</p>
-        <!-- <LastHour /> -->
-      </v-card-text>
-      <v-card-text height="50">
+      <v-col class="d-flex justify-center align-center">
+        <v-img
+          :src="player.gameLogo"
+          class="game-logo"
+        />
+      </v-col>
+    </v-row>
+  
+    <!-- User Info Row -->
+    <v-row
+      align="center"
+      justify="space-between"
+      class="user-info"
+    >
+      <!-- Left: User Avatar -->
+      <v-col cols="auto">
+        <v-avatar size="64">
+          <img
+            :src="player.avatar"
+            alt="User Avatar"
+            class="avatar-img"
+          >
+        </v-avatar>
+      </v-col>
+  
+      <!-- Center: Name, Status Dot, and Status Message -->
+      <v-col>
+        <div class="d-flex align-center">
+          <v-icon
+            :color="statusColor"
+            class="mr-2"
+          >
+            mdi-circle
+          </v-icon>
+          <span class="text-h6">{{ player.name }}</span>
+        </div>
+        <div class="text-body-2">
+          {{ statusMessage }}
+        </div>
+      </v-col>
+      <v-col>
         <LastHour />
-      </v-card-text>
-      <!-- Start content -->
-    </v-card>
+      </v-col>
+    </v-row>
   </v-container>
-  <!-- <div>
-    <p>
-      All Data: 
-      {{ player }}
-    </p>
-  </div> -->
 </template>
   
-<script lang="ts">
-  import { defineComponent, ref, computed, onMounted } from 'vue';
-  import { getPlayerSummary } from '../services/steamService';
-  
-  export default defineComponent({
-    setup() {
-      const player = ref<any>(null);
-  
-      onMounted(async () => {
-        try {
-          player.value = await getPlayerSummary();
-        } catch (error) {
-          console.error('Failed to fetch Steam data:', error);
-        }
-      });
+<script setup lang="ts">
+  import LastHour from "@/components/LastHour.vue";
 
-      const avatarFull = computed(() => {
-        if (!player.value) return 'Unknown';
-
-        return player.value.avatarfull;
-      });
+  import { computed, onMounted } from "vue";
+  import { useSteamService } from "@/services/steamService";
   
-      const statusText = computed(() => {
-        if (!player.value) return 'Unknown';
-        const statusMap: Record<number, string> = {
-          0: 'Offline',
-          1: 'Online',
-          2: 'Busy',
-          3: 'Away',
-          4: 'Snooze',
-          5: 'Looking to trade',
-          6: 'Looking to play',
-        };
-        // if status = 1, check game info?
-        return statusMap[player.value.personastate] || 'Unknown';
-      });
-
-      const playerState = computed(() => {
-        if (!player.value.gameextrainfo) return null;
-        const gameInfo: string = player.value.gameextrainfo;
-        return gameInfo || null;
-      });
-
-      
+  const { player, fetchSteamData } = useSteamService();
   
-      return { player, statusText, avatarFull, playerState };
-    },
+  const statusColor = computed(() => {
+  if (player.value.game) {
+    if (player.value.game.toLowerCase().includes("overwatch")) {
+      return "#FF5252"; // Red
+    }
+    return "#FFC107"; // Yellow
+  }
+  if (player.value.status === 1) {
+    return "#4CAF50"; // Green
+  }
+  return "#757575"; // Grey
 });
 
+const statusMessage = computed(() => {
+  if (player.value.game) {
+    return `Playing ${player.value.game}`;
+  }
+  if (player.value.status === 0) {
+    return "Offline";
+  }
+  if (player.value.status === 2) {
+    return "Away";
+  }
+  return "Online";
+});
   
+  onMounted(() => {
+    fetchSteamData();
+  });
 </script>
-
-
-
-<style>
-  .focused {
-    color: yellow;
+  
+<style scoped>
+  .status-container {
+    width: 100%;
+    max-width: 800px;
+    height: 480px;
+    display: flex;
+    flex-direction: column;
   }
-  .offline {
-    color: #424242;
+  
+  .game-row {
+    height: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  .online {
-    color: white;
+  
+  .game-logo {
+    max-width: 100%;
+    max-height: 185px;
+    height: auto;
+    object-fit: contain;
   }
-  .bold {
-    font-weight: bolder;
+  
+  .user-info {
+    height: 60%;
+    display: flex;
+    align-items: center;
+    padding: 10px;
   }
-  #banner-image {
-    height: 200px;
-    background: linear-gradient(0.25turn, #1bcb08, #25d81f00), linear-gradient(gradient-direction), url(@/assets/pexels-thatguycraig000-1563356.jpg);
-    width: 100%
+  
+  .avatar-img {
+    object-fit: cover;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
   }
 </style>
+  

@@ -11,5 +11,6 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SteamProfile: typeof import('./src/components/SteamProfile.vue')['default']
+    SteamProfile2: typeof import('./src/components/SteamProfile2.vue')['default']
   }
 }
